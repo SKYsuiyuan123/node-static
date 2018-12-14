@@ -43,11 +43,12 @@ let server = http.createServer((req, res) => {
 
     // 解决路径中的中文
     if (urlPathName.indexOf('%') !== -1) {
-        let in1 = req.url.lastIndexOf('/');
-        let in2 = req.url.indexOf('.');
-        let str3 = req.url.slice(in1 + 1, in2);
-        let str = decodeURI(str3);
-        urlPathName = urlPathName.slice(0, in1) + '/' + str + urlExtname;
+        // 提取 基础名
+        let baseName = path.basename(urlPathName, urlExtname);
+        // 转换为 中文        
+        let str = decodeURI(baseName);
+        let index = req.url.indexOf(baseName);
+        urlPathName = urlPathName.slice(0, index) + '/' + str + urlExtname;
     }
 
     if (req.url === '/favicon.ico') {
