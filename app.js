@@ -66,7 +66,9 @@ let server = http.createServer((req, res) => {
         // 读取文件
         fs.readFile(dataStr, (err, data) => {
             if (err) {
-                console.log(err);
+                res.setHeader('Content-Type', mime['.html']);
+                res.writeHead(404);
+                res.end('<h3>404 Not Found<h3>');
             } else {
 
                 // 设置文件类型
