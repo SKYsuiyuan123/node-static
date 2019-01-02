@@ -47,8 +47,10 @@ let server = http.createServer((req, res) => {
         let baseName = path.basename(urlPathName, urlExtname);
         // 转换为 中文        
         let str = decodeURI(baseName);
-        let index = req.url.indexOf(baseName);
-        urlPathName = urlPathName.slice(0, index) + '/' + str + urlExtname;
+        // 文件夹路径
+        let urlDirname = path.dirname(urlPathName);
+        let flag = urlDirname !== '/' ? '/' : '';
+        urlPathName = urlDirname + flag + str + urlExtname;
     }
 
     if (req.url === '/favicon.ico') {
